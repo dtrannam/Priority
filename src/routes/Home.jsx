@@ -1,8 +1,24 @@
 
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import { useRoutes } from 'react-router-dom'
+import { supabase } from '../client'
 
 function Home() {
+  
+
+  const [task, setTask] = useState([])
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      const {data} = await supabase
+        .from('Tasks')
+        .select()
+        .order('created_at', { ascending: true })
+        setTask(data)
+        console.log(data)
+    }
+    fetchTask()
+  }, [])
 
     return (
       <div className="App">
